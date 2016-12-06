@@ -57,9 +57,9 @@ void AddToVector(string new_child, std::vector<string> &v) {
 
 void PrintVector(const std::vector<string>& v) {
 	cout << "{";
-	  for (int i=0; i<v.size();i++){
+	for (int i=0; i<v.size();i++) {
 	    cout << v[i] << ",";
-	  }
+	}
 	cout << "}" << endl;
 }
 
@@ -179,19 +179,21 @@ void FindUniqueNodes(std::map<string, vector<string>> m) {
 	PrintVector(v);
 
 	for(auto i = m.cbegin(); i != m.cend(); ++i) {
-		for(auto it = m.cbegin(); it != m.cend(); ++it) {
-			cout << "Finding " << i->first << " in ";
-			PrintVector(it->second);
-
-		    //if ( std::find(it->second.begin(), it->second.end(), i->first) != it->second.end() ) {
-	   		//	is_unique = false;
-	   		//}
-		}
-		if (is_unique) {
-			//cout << i->first << " is a unique\n";
+		for(auto j = m.cbegin(); j != m.cend(); ++j) {
+			for (int k = 0; k < (i->second.size()); k++) {
+				if (std::find(j->second.begin(), j->second.end(), i->second[k]) != j->second.end()) {
+					cout << "looking for: " << i->second[k] << " in: ";
+					PrintVector(j->second);
+					cout << "and it was found!" << endl;
+					if (std::find(v.begin(), v.end(), "abc") != v.end()) {
+						AddToVector(i->second[k], v);
+					}
+				}
+			}
 		}
 	}
-
+	cout << "Current unique nodes: ";
+	PrintVector(v);
 }
 
 //given the map containing the nodes, it prints an explosion of the map's nodes
