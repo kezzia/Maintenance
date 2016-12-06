@@ -11,15 +11,19 @@ int main() {
 
 
 	ifstream in_file("inp.txt");
-	std::vector<string> x = PopulateMap(in_file, my_map);
+	std::vector<string> exploded_nodes;
+	std::vector<string> special_nodes = PopulateMap(in_file, my_map);
 	PrintMap(my_map);
 	std::vector<string> transactions = FindTransactions(my_map);
 	cout << "SPECIAL NODES:" << endl;
-	PrintVector(x);
+	PrintVector(special_nodes);
+	string defective_node = special_nodes[0];
+	string transaction = special_nodes[1];
 	cout << "TRANSACTIONS: " << endl;
 	PrintVector(transactions);
 	FindUniqueNodes(my_map);
-	Explode(my_map, transactions);
+	Explode(my_map, transaction, 0, exploded_nodes);
+	ReturnToSender(my_map, defective_node);
 
 	return 0;
 }

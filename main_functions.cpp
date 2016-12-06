@@ -195,13 +195,68 @@ void FindUniqueNodes(std::map<string, vector<string>> m) {
 }
 
 //given the map containing the nodes, it prints an explosion of the map's nodes
-void Explode(std::map<string, vector<string>> temp_map) {
-	cout << "EXPLODING TRANSACTIONS\n";
+void Explode(std::map<string, vector<string>> temp_map, string transaction, 
+	int indentation_value, std::vector<string>& exploded_nodes) {
+	//cout << "EXPLODING TRANSACTIONS\n";
+
+	string indentation_string = "  ";
+	string current_parent = transaction;
+	if ( (temp_map.find(current_parent) != temp_map.end()) ) {
+		//cout << "EXPLODING TRANSACTIONS\n";
+		//cout << "This node has children" << endl;
+		if (indentation_value == 0) {
+			cout << transaction << endl;
+			indentation_value++;
+		}
+
+		std::vector<string> v = temp_map[current_parent];
+		//PrintVector (v);
+		for (int i = 0; i < v.size(); i++) {
+			for (int j = 0; j < indentation_value; j++) {
+				cout << indentation_string;
+			}
+
+	    	if ( (std::find(exploded_nodes.begin(), exploded_nodes.end(), 
+	    			v[i]) == exploded_nodes.end()) ) {
+	    		cout << v[i] << endl;
+	    	}
+	    	else {
+	    		cout << v[i] <<"*" << endl;
+	    	}
+
+	    	if ( (temp_map.find(v[i]) != temp_map.end()) ) {
+	    		//cout << "but " << current_parent <<"s child " << v[i] << " also has childr
+	    		if ( (std::find(exploded_nodes.begin(), exploded_nodes.end(), 
+	    			v[i]) == exploded_nodes.end()) ) {
+	    			AddToVector(v[i], exploded_nodes);
+	    			Explode(temp_map, v[i], (indentation_value + 1), exploded_nodes);
+	    		}
+	    	}
+		}
+	}
+
+
 }
 
 //given the map containing the nodes and the defective node, it prints the path from the defective node to the transaction 
-void ReturnToSender(std::map<string, vector<string>> &temp_map) {
+void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node) {
 	cout << "CHARTING BACK TO TRANSACTION\n";
+	//search keys and values for defective_node
+	bool in_map = false;
+	std::vector<string> parents;
+
+	if( (temp_map.find(defective_node) != temp_map.end()) ) {
+		cout << "node found (parent)" << endl;
+	}
+	else {
+		for(auto i = temp_map.cbegin(); i != temp_map.cend(); ++i) {
+			if ( (std::find(i->second.begin(), i->second.end(), 
+				defective_node) != i->second.end()) ) {
+				cout << "node found as a child of " << i->first << endl;
+				in_map = true;
+			}
+		}		
+	}
 }
 
 
