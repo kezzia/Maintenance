@@ -25,7 +25,7 @@ void AddToVector(string new_child, vector<string> &v);
 void PrintVector(const std::vector<string>& v);
 
 //given the map containing the nodes, it prints the transactions
-void FindTransactions(std::map<string, vector<string>> m);
+std::vector<string> FindTransactions(std::map<string, vector<string>> m);
 
 //given the map containing the nodes, it prints the unique nodes
 void FindUniqueNodes(std::map<string, vector<string>> m);

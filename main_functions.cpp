@@ -136,10 +136,12 @@ return v;
 }
 
 //given the map containing the nodes, it prints the transactions
-void FindTransactions(std::map<string, vector<string>> m) {
+std::vector<string> FindTransactions(std::map<string, vector<string>> m) {
 	cout << "FINDING TRANSACTIONS\n";
 	//for each key
 	//if that key is not also a value, print it
+
+	std::vector<string> transactions;
 
 	for(auto i = m.cbegin(); i != m.cend(); ++i) {
 		bool is_transaction = true;
@@ -152,9 +154,11 @@ void FindTransactions(std::map<string, vector<string>> m) {
 	   		}
 		}
 		if (is_transaction) {
-			cout << i->first << " is a transaction\n";
+			//cout << i->first << " is a transaction\n";
+			AddToVector(i->first, transactions);
 		}
 	}
+	return transactions;
 }
 
 //given the map containing the nodes, it prints the unique nodes
@@ -175,17 +179,11 @@ void FindUniqueNodes(std::map<string, vector<string>> m) {
 		AddToVector(i->first, v);
 	}
 
-	cout << "Current unique nodes: ";
-	PrintVector(v);
-
 	for(auto i = m.cbegin(); i != m.cend(); ++i) {
 		for(auto j = m.cbegin(); j != m.cend(); ++j) {
 			for (int k = 0; k < (i->second.size()); k++) {
 				if (std::find(j->second.begin(), j->second.end(), i->second[k]) != j->second.end()) {
-					cout << "looking for: " << i->second[k] << " in: ";
-					PrintVector(j->second);
-					cout << "and it was found!" << endl;
-					if (std::find(v.begin(), v.end(), "abc") != v.end()) {
+					if (std::find(v.begin(), v.end(), i->second[k]) == v.end()) {
 						AddToVector(i->second[k], v);
 					}
 				}
