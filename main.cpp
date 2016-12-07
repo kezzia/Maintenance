@@ -23,7 +23,7 @@ int main() {
 	PrintVector(transactions);
 	FindUniqueNodes(my_map);
 	Explode(my_map, transaction, 0, exploded_nodes);
-	ReturnToSender(my_map, defective_node);
+	ReturnToSender(my_map, defective_node, "");
 
 	return 0;
 }

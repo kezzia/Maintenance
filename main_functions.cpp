@@ -57,7 +57,7 @@ void AddToVector(string new_child, std::vector<string> &v) {
 
 void PrintVector(const std::vector<string>& v) {
 	cout << "{";
-	for (int i=0; i<v.size();i++) {
+	for (int i = 0; i < v.size(); i++) {
 	    cout << v[i] << ",";
 	}
 	cout << "}" << endl;
@@ -131,8 +131,7 @@ std::vector<string> PopulateMap(ifstream &in_file, std::map<string, vector<strin
 			new_string = "";
 		}
 	}
-
-return v;
+	return v;
 }
 
 //given the map containing the nodes, it prints the transactions
@@ -234,29 +233,64 @@ void Explode(std::map<string, vector<string>> temp_map, string transaction,
 	    	}
 		}
 	}
-
-
 }
 
 //given the map containing the nodes and the defective node, it prints the path from the defective node to the transaction 
-void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node) {
-	cout << "CHARTING BACK TO TRANSACTION\n";
+void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node, string prev_out) {
+	//cout << "CHARTING BACK TO TRANSACTION\n";
 	//search keys and values for defective_node
-	bool in_map = false;
-	std::vector<string> parents;
+	string parent;
+	bool has_parent = false;
+	string indentation_string = "  ";
 
-	if( (temp_map.find(defective_node) != temp_map.end()) ) {
-		cout << "node found (parent)" << endl;
+	//cout << "first iteration" << endl;
+	for(auto i = temp_map.cbegin(); i != temp_map.cend(); ++i) {
+		//check to see if our search key is in the children
+		//cout << "prev_out: " << prev_out;
+		string out;
+		if ( (std::find(i->second.begin(), i->second.end(), 
+			defective_node) != i->second.end()) ) {
+			has_parent = true;
+			// string out;
+			//cout << out;
+			string x = (defective_node + " --> ");
+			//cout << defective_node << " found as a child of " << i->first << endl;
+			//cout << out << defective_node + " --> ";
+			out += x;
+			cout << out;
+			ReturnToSender(temp_map, i->first, out);
+			
+		}
 	}
-	else {
-		for(auto i = temp_map.cbegin(); i != temp_map.cend(); ++i) {
-			if ( (std::find(i->second.begin(), i->second.end(), 
-				defective_node) != i->second.end()) ) {
-				cout << "node found as a child of " << i->first << endl;
-				in_map = true;
-			}
-		}		
+
+	if (!has_parent) {
+		cout << defective_node << endl;
 	}
+
+			//cout << defective_node << " is a transaction" << endl; 
+		
 }
 
 
+
+
+// void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node, string out) {
+// 		bool has_parent = false;
+// 	for(auto i = temp_map.cbegin(); i != temp_map.cend(); ++i) {
+// 		//check to see if our search key is in the children
+// 		if ( (std::find(i->second.begin(), i->second.end(), 
+// 			defective_node) != i->second.end()) ) {
+// 			has_parent = true;
+
+// 			//cout << defective_node << " found as a child of " << i->first << endl;
+// 			//string out += ( defective_node + " --> " + i->first);
+// 			cout << out;
+// 			ReturnToSender(temp_map, i->first, out);
+// 		}
+// 	}
+
+// 	if (!has_parent) {
+// 		cout << "\ntransaction\n";
+// 	}
+
+// }

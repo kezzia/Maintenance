@@ -34,5 +34,6 @@ void FindUniqueNodes(std::map<string, vector<string>> m);
 void Explode(std::map<string, vector<string>> temp_map, string transaction, int indentation_value, std::vector<string>& exploded_nodes);
 
 //given the map containing the nodes and the defective node, it prints the path from the defective node to the transaction 
-void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node);
-
+//void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node);
+void ReturnToSender(std::map<string, vector<string>> &temp_map, string defective_node, string prev_out);
+//void ReturnToSender( std::map<string, vector<string>> &temp_map, string parent );
